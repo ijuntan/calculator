@@ -116,7 +116,7 @@ const initEventListener = () => {
             let operandType = "A"
             if(currentOperation > 0) operandType = "B"
 
-            updateOperand(operandType, '.')
+            updateOperand(operandType, ".")
             updateScreenUI(operandType)
         }
         else if(e.code === "Equal" || e.code === "Enter") {
@@ -146,6 +146,13 @@ const updateScreenUI = (type) => {
 }
 
 const updateOperand = (operandType, char) => {
+    // special logic for .
+    if(char === ".") {
+        if(screenDiv.textContent.split("").includes(".")) return;
+        operandType === "A" ? operandA += char : operandB += char;
+        return;
+    }
+
     // special logic for "0" char
     if(operandType === "A") {
         if(operandA === "0") {
