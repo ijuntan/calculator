@@ -19,10 +19,15 @@ const divide = function(a, b) {
     return a / b;
 };
 
+const modulo = function(a,b) {
+    return a % b;
+}
+
 export {
     add,
     subtract,
     multiply,
     power,
-    divide
+    divide,
+    modulo
 }

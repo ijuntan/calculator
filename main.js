@@ -1,4 +1,4 @@
-import { add, subtract, divide, multiply, power } from './calculation.js'
+import { add, subtract, divide, multiply, power, modulo } from './calculation.js'
 
 const buttonContainerDiv = document.querySelector('.button-container')
 const numberContainerDiv = document.querySelector('.number-container')
@@ -75,9 +75,27 @@ const initEventListener = () => {
         else if(e.target.classList[0] === "action") {
             operator = e.target.classList[1]
         }
+        else if(e.target.classList[0] === "misc"){
+            switch(e.target.classList[1]) {
+                case "equal":
+                    operandA = doOperation();
+                    resetOperand();
+                    break;
+                case "dot":
+                case "backspace":
+                case "clear":
+                    break;
+            }
+        }
 
         printLog()
     })
+}
+
+const resetOperand = () => {
+    screenDiv.textContent = operandA;
+    operator = "";
+    operandB = "0";
 }
 
 const clearScreen = () => {
@@ -109,6 +127,35 @@ const updateOperand = (operandType, char) => {
         operandB += char;
     }
         
+}
+
+const doOperation = () => {
+    let res = 0
+    const a = Number(operandA)
+    const b = Number(operandB)
+
+    switch(operator) {
+        case "add":
+            res = add(a, b)
+            break;
+        case "subtract":
+            res = subtract(a, b)
+            break;
+        case "multiply":
+            res = multiply(a, b)
+            break;
+        case "divide":
+            res = divide(a, b)
+            break;
+        case "modulo":
+            res = modulo(a, b)
+            break;
+        case "power":
+            res = power(a, b)
+            break;
+    }
+    console.log('res: ', res)
+    return res + ""
 }
 
 createButton()
