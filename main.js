@@ -71,7 +71,6 @@ const initEventListener = () => {
 
             updateOperand(operandType, e.target.textContent)
             updateScreenUI(operandType)
-            
         }
         else if(e.target.classList[0] === "action") {
             if(currentOperation === 0) {
@@ -88,8 +87,6 @@ const initEventListener = () => {
                 case "equal":
                     operandA = doOperation();
                     resetOperand();
-                    break;
-                case "dot":
                     break;
                 case "backspace":
                     removeOperandChar()
