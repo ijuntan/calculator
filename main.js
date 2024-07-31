@@ -182,7 +182,7 @@ const doOperation = () => {
             break;
     }
     console.log('res: ', res)
-    return res + ""
+    return (Math.round(res * 1000) / 1000) + ""
 }
 
 createButton()
