@@ -1,12 +1,13 @@
 import { add, subtract, divide, multiply, power } from './calculation.js'
 
+const buttonContainerDiv = document.querySelector('.button-container')
 const numberContainerDiv = document.querySelector('.number-container')
 const actionContainerDiv = document.querySelector('.action-container')
 const screenDiv = document.querySelector(".screen .content")
 
-let operandA = 0
+let operandA = "0"
 let operator = ""
-let operandB = 0
+let operandB = "0"
 
 const actions = [{
     symbol: "+",
@@ -16,7 +17,7 @@ const actions = [{
     type: "subtract"
 },{
     symbol: "x",
-    type: "multiplys"
+    type: "multiply"
 },{
     symbol: "÷",
     type: "divide"
@@ -26,12 +27,6 @@ const actions = [{
 },{
     symbol: "^",
     type: "power"
-},{
-    symbol: "C",
-    type: "clear"
-},{
-    symbol: "←",
-    type: "backspace"
 }]
 
 const createButton = () => {
@@ -54,8 +49,12 @@ const createButton = () => {
     })
 }
 
+const printLog = () => {
+    console.log(operandA, operator, operandB)
+}
+
 const initScreen = () => {
-    screenDiv.textContent = "0"
+    screenDiv.textContent = operandA
 }
 
 // Click Number -> Clear screen and number if the previous input is not number or 0, otherwise append to the screen if not 0
@@ -64,35 +63,52 @@ const initScreen = () => {
 // Click C -> Clear screen and previous input
 // Click Actions -> save to operator
 const initEventListener = () => {
-    numberContainerDiv.addEventListener("click", (e) => {
+    buttonContainerDiv.addEventListener("click", (e) => {
         if(e.target.classList[0] === "number") {
-            updateScreenUI(e.target.textContent)
-            if(operator !== "")
-                updateOperand("A")
-            else
-                updateOperand("B")
+            let operandType = "A"
+            if(operator !== "") operandType = "B"
+
+            updateOperand(operandType, e.target.textContent)
+            updateScreenUI(operandType)
+            
         }
+        else if(e.target.classList[0] === "action") {
+            operator = e.target.classList[1]
+        }
+
+        printLog()
     })
 }
 
-// Update Screen UI for Number
-const updateScreenUI = (char) => {
-    // special logic for "0" char
-    if(screenDiv.textContent[0] === "0") {
-        if(char === "0") return;
-        screenDiv.textContent = char;
-        return;
-    }
-
-    // update as usual
-    screenDiv.textContent += char
+const clearScreen = () => {
+    screenDiv.textContent = "0";
 }
 
-const updateOperand = (operandType) => {
-    if(operandType === "A")
-        operandA = Number(screenDiv.textContent)
-    else if(operandType === "B")
-        operandB = Number(screenDiv.textContent)
+// Update Screen UI for Number
+const updateScreenUI = (type) => {
+    screenDiv.textContent = type === "A" ? operandA : operandB
+}
+
+const updateOperand = (operandType, char) => {
+    // special logic for "0" char
+    if(operandType === "A") {
+        if(operandA === "0") {
+            if(char === "0") return;
+            operandA = char;
+            return;
+        }
+        operandA += char;
+    }
+        
+    else if(operandType === "B") {
+        if(operandB === "0") {
+            if(char === "0") return;
+            operandB = char;
+            return;
+        }
+        operandB += char;
+    }
+        
 }
 
 createButton()
