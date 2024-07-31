@@ -59,7 +59,7 @@ const initScreen = () => {
 }
 
 // Click Number -> Clear screen and number if the previous input is not number or 0, otherwise append to the screen if not 0
-// Click . -> Give dedcimal value to operand
+// Click . -> Give decimal value to operand
 // Click = -> Do operation and reset operand and operator
 // Click C -> Clear screen and previous input
 // Click Actions -> Save to operator
@@ -73,14 +73,7 @@ const initEventListener = () => {
             updateScreenUI(operandType)
         }
         else if(e.target.classList[0] === "action") {
-            if(currentOperation === 0) {
-                operator = e.target.classList[1]
-                currentOperation = 1;
-            }
-            else {
-                operandA = doOperation();
-                resetOperand(e.target.classList[1], 1);
-            }
+            updateOperator(e.target.classList[1])
         }
         else if(e.target.classList[0] === "misc"){
             switch(e.target.classList[1]) {
@@ -97,6 +90,39 @@ const initEventListener = () => {
             }
         }
 
+        printLog()
+    })
+
+    document.addEventListener("keydown", (e) => {
+        if(e.shiftKey) {
+            if(e.code === "Equal") updateOperator('add')
+            else if(e.code === "Digit5") updateOperand('modulo')
+            else if(e.code === "Digit6") updateOperator('power')
+            else if(e.code === "Digit8") updateOperator('multiply')
+        }
+        else if(e.code.slice(0,-1) === `Digit`) {
+            let operandType = "A"
+            if(currentOperation > 0) operandType = "B"
+
+            updateOperand(operandType, e.code.slice(-1))
+            updateScreenUI(operandType)
+        }
+        else if(e.code === "Minus") updateOperator('subtract')
+        else if(e.code === "KeyX") updateOperator('multiply')
+        else if(e.code === "Slash") updateOperator('divide')
+        else if(e.code === "Backspace") removeOperandChar()
+        else if(e.code === "KeyC") clearScreen()
+        else if(e.code === "Period") {
+            let operandType = "A"
+            if(currentOperation > 0) operandType = "B"
+
+            updateOperand(operandType, '.')
+            updateScreenUI(operandType)
+        }
+        else if(e.code === "Equal" || e.code === "Enter") {
+            operandA = doOperation();
+            resetOperand();
+        }
         printLog()
     })
 }
@@ -140,6 +166,18 @@ const updateOperand = (operandType, char) => {
     }
         
 }
+
+const updateOperator = (action) => {
+    if(currentOperation === 0) {
+        operator = action;
+        currentOperation = 1;
+    }
+    else {
+        operandA = doOperation();
+        resetOperand(action, 1);
+    }
+}
+
 
 const removeOperandChar = () => {
     if(currentOperation === 2) {
