@@ -8,6 +8,7 @@ const screenDiv = document.querySelector(".screen .content")
 let operandA = "0"
 let operator = ""
 let operandB = "0"
+let currentOperation = 0
 
 const actions = [{
     symbol: "+",
@@ -66,14 +67,21 @@ const initEventListener = () => {
     buttonContainerDiv.addEventListener("click", (e) => {
         if(e.target.classList[0] === "number") {
             let operandType = "A"
-            if(operator !== "") operandType = "B"
+            if(currentOperation > 0) operandType = "B"
 
             updateOperand(operandType, e.target.textContent)
             updateScreenUI(operandType)
             
         }
         else if(e.target.classList[0] === "action") {
-            operator = e.target.classList[1]
+            if(currentOperation === 0) {
+                operator = e.target.classList[1]
+                currentOperation = 1;
+            }
+            else {
+                operandA = doOperation();
+                resetOperand(e.target.classList[1], 1);
+            }
         }
         else if(e.target.classList[0] === "misc"){
             switch(e.target.classList[1]) {
@@ -93,10 +101,11 @@ const initEventListener = () => {
     })
 }
 
-const resetOperand = () => {
-    screenDiv.textContent = operandA;
-    operator = "";
+const resetOperand = (chainOperator = "", chainCurrentOperation = 0) => {
+    initScreen()
+    operator = chainOperator;
     operandB = "0";
+    currentOperation = chainCurrentOperation;
 }
 
 const clearScreen = () => {
@@ -121,6 +130,7 @@ const updateOperand = (operandType, char) => {
     }
         
     else if(operandType === "B") {
+        currentOperation = 2;
         if(operandB === "0") {
             if(char === "0") return;
             operandB = char;
