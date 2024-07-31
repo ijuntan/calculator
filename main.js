@@ -50,10 +50,6 @@ const createButton = () => {
     })
 }
 
-const printLog = () => {
-    console.log(operandA, operator, operandB)
-}
-
 const initScreen = () => {
     screenDiv.textContent = operandA
 }
@@ -89,8 +85,6 @@ const initEventListener = () => {
                     break;
             }
         }
-
-        printLog()
     })
 
     document.addEventListener("keydown", (e) => {
@@ -123,7 +117,6 @@ const initEventListener = () => {
             operandA = doOperation();
             resetOperand();
         }
-        printLog()
     })
 }
 
@@ -226,7 +219,6 @@ const doOperation = () => {
             res = power(a, b)
             break;
     }
-    console.log('res: ', res)
     if(res === "Error") return res;
     return (Math.round(res * 1000) / 1000) + ""
 }
