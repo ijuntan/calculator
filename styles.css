@@ -28,6 +28,7 @@ main {
     border-radius: 6px;
     display: flex;
     justify-content: flex-end;
+    flex-shrink: 0;
 }
 
 .button-container {
@@ -47,6 +48,7 @@ main {
     align-items: center;
     gap: 12px;
 }
+
 .number-container {
     flex: 3;
 }
