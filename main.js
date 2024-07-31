@@ -84,6 +84,7 @@ const initEventListener = () => {
                 case "dot":
                 case "backspace":
                 case "clear":
+                    clearScreen()
                     break;
             }
         }
@@ -99,7 +100,8 @@ const resetOperand = () => {
 }
 
 const clearScreen = () => {
-    screenDiv.textContent = "0";
+    operandA = "0"
+    resetOperand()
 }
 
 // Update Screen UI for Number
