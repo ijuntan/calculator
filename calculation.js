@@ -18,3 +18,11 @@ const divide = function(a, b) {
     if(b === 0) return "Error"
     return a / b;
 };
+
+export {
+    add,
+    subtract,
+    multiply,
+    power,
+    divide
+}
