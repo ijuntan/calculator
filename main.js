@@ -129,6 +129,7 @@ const initEventListener = () => {
 
 const resetOperand = (chainOperator = "", chainCurrentOperation = 0) => {
     initScreen()
+    if(operandA === "Error") operandA = "0"
     operator = chainOperator;
     operandB = "0";
     currentOperation = chainCurrentOperation;
@@ -178,7 +179,6 @@ const updateOperator = (action) => {
     }
 }
 
-
 const removeOperandChar = () => {
     if(currentOperation === 2) {
         if(operandB === "0") return;
@@ -220,6 +220,7 @@ const doOperation = () => {
             break;
     }
     console.log('res: ', res)
+    if(res === "Error") return res;
     return (Math.round(res * 1000) / 1000) + ""
 }
 
