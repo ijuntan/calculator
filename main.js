@@ -59,10 +59,10 @@ const initScreen = () => {
 }
 
 // Click Number -> Clear screen and number if the previous input is not number or 0, otherwise append to the screen if not 0
-// Click . -> WIP
-// Click = -> WIP
+// Click . -> Give dedcimal value to operand
+// Click = -> Do operation and reset operand and operator
 // Click C -> Clear screen and previous input
-// Click Actions -> save to operator
+// Click Actions -> Save to operator
 const initEventListener = () => {
     buttonContainerDiv.addEventListener("click", (e) => {
         if(e.target.classList[0] === "number") {
@@ -90,7 +90,10 @@ const initEventListener = () => {
                     resetOperand();
                     break;
                 case "dot":
+                    break;
                 case "backspace":
+                    removeOperandChar()
+                    break;
                 case "clear":
                     clearScreen()
                     break;
@@ -139,6 +142,21 @@ const updateOperand = (operandType, char) => {
         operandB += char;
     }
         
+}
+
+const removeOperandChar = () => {
+    if(currentOperation === 2) {
+        if(operandB === "0") return;
+        operandB = operandB.slice(0, -1);
+        if(operandB === "") operandB = "0"
+        updateScreenUI("B");
+    }
+    else {
+        if(operandA === "0") return;
+        operandA = operandA.slice(0, -1);
+        if(operandA === "") operandA = "0"
+        updateScreenUI("A");
+    } 
 }
 
 const doOperation = () => {
